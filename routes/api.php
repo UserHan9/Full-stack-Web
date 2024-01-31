@@ -43,11 +43,9 @@ Route::middleware('auth:api')->get('/user', function(Request $request){
  * route "/logout"
  * @method "POST"
  */
-Route::post('/logout', \App\Http\Controllers\Api\LogoutController::class)->name('logout');
 
+Route::group(['middleware' => 'auth:api'],function(){
+    Route::post('/logout', \App\Http\Controllers\Api\LogoutController::class)->name('logout');
 
-/**
- * 
- * add user
- */
-Route::get('/add-user', [UserController::class, 'addUser']);
+});
+

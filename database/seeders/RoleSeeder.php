@@ -10,11 +10,18 @@ class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * @return void 
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        // baru sampe sini
-        Role::create(['name'=>'']);
+         Role::create([
+        'name' => 'admin',
+        'guard_name' => 'api'
+       ]);
+
+       Role::create([
+        'name' => 'user',
+        'guard_name' => 'api'
+       ]);
     }
 }

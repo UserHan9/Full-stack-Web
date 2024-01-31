@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Permission\Middleware\RoleMiddleware;
+use App\Http\Controllers\Api\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+
+Route::post('/login', [LoginController::class, '__invoke']);
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/page', 'AdminController@index')->name('admin.page');
+});
+
+
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::prefix('user')->group(function () {
+        Route::get('/page', 'UserController@index')->name('user.page');
+    });
 });

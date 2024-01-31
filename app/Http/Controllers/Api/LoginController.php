@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -12,40 +11,76 @@ class LoginController extends Controller
 {
     /**
      * Handle the incoming request.
+     *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
-     * 
      */
     public function __invoke(Request $request)
     {
-        //set validation
-        $validator = Validator::make($request->all(),[
-        'email' => 'required',
-        'password' => 'required'
+        // Set validation
+        $validator = Validator::make($request->all(), [
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
-        //jika validation gagal
-        if($validator->fails()){
-            return response();
-        }
-
-        //dapat credentials dari request
-        $credentials = $request->only('email','password');
-
-        //jika auth gagal
-        if(!$token =JWTAuth::attempt($credentials)){
+        // Jika validasi gagal
+        if ($validator->fails()) {
             return response()->json([
                 'success' => false,
-                'message' => 'email atau password salah'
+                'message' => 'Validasi gagal',
+            ], 422);
+        }
+
+        // Dapatkan credentials dari request
+        $credentials = $request->only('email', 'password');
+
+        // Jika auth gagal
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Email atau password salah',
             ], 401);
         }
 
         $user = auth()->user();
-        return response()->json([
+
+        // Redirect berdasarkan peran setelah autentikasi berhasil
+        return $this->authenticated($request, $user, $token);
+    }
+
+    /**
+     * Handle the authenticated user.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param mixed $user
+     * @param string $token
+     * @return \Illuminate\Http\Response
+     */
+    protected function authenticated(Request $request, $user, $token)
+    {
+        // Lakukan otentikasi pengguna
+        auth()->login($user);
+    
+        $response = [
             'success' => true,
             'user' => auth()->user(),
-            'role' => $user->role,
-            'token' => $token
-        ], 200);
+            'token' => $token,
+        ];
+    
+        // Periksa dan tambahkan roles ke array jika pengguna memiliki peran tertentu
+        if ($user->hasRole('admin')) {
+            $response['roles'][] = 'admin';
+        }
+    
+        if ($user->hasRole('user')) {
+            $response['roles'][] = 'user';
+        }
+    
+        return response()->json($response, 200);
     }
+
+        
+    
+
+
 }

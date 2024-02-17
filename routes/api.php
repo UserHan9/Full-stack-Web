@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LombaController;
 use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\BuatLombaController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -63,3 +65,8 @@ Route::get('/jadwal/show',[JadwalController::class, 'show'])->name('lomba.show')
 Route::get('/jadwal/{id}', [LombaController::class, 'showId'])->name('lomba.showId');
 Route::put('/jadwal/update/{id}', [LombaController::class, 'update']);
 Route::delete('/jadwal/destroy/{id}', [LombaController::class, 'destroy']);
+
+//route buat lomba
+Route::post('/buat-lomba', [BuatLombaController::class, 'imageUpload']);
+Route::get('/buat-lomba/show',[BuatLombaController::class, 'show'])->name('buatlomba.show');
+Route::get('/buat-lomba/{id}', [BuatLombaController::class, 'showId'])->name('buatlomba.showId');

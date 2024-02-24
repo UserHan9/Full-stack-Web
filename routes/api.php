@@ -8,8 +8,9 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\BuatLombaController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\PemenangLomba;
 
-Route::post('/send-email', [EmailController::class, 'sendEmail']);
+
 
 
 
@@ -89,6 +90,6 @@ Route::group(['middleware' => 'auth:api'],function(){
     Route::get('/chats/message', [ChatController::class, 'getMessage']);
     Route::delete('/chats/{id}', [ChatController::class, 'destroy']);
 
-    //Email
-    Route::post('/send-email', [EmailController::class, 'sendEmail']);
 
+    //pemenang lomba 
+    Route::post('/pemenang-lomba', [PemenangLomba::class, 'imageUpload']);

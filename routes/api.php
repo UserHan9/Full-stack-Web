@@ -88,7 +88,8 @@ Route::group(['middleware' => 'auth:api'],function(){
   // Route untuk menyimpan chat baru
     Route::post('/chats', [ChatController::class, 'store']);
     Route::get('/chats/message', [ChatController::class, 'getMessage']);
-    Route::delete('/chats/{id}', [ChatController::class, 'destroy']);
+    // Route untuk menghapus chat berdasarkan ID
+Route::delete('/chats/{id}', [ChatController::class, 'delete']);
 
 
     //pemenang lomba 

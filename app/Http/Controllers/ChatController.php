@@ -40,29 +40,35 @@ class ChatController extends Controller
         }
     }
 
-    public function destroy($id)
+    
+    public function getMessage()
     {
         try {
-            $chat = Chat::findOrFail($id);
-            $chat->delete();
+            $chats = Chat::all();
             
+            $messages = $chats->pluck('message');
+            
+            return response()->json(['messages' => $messages], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal mengambil pesan chat'], 500);
+        }
+    }
+    
+    public function delete($id)
+    {
+        try {
+            $chat = Chat::find($id);
+            
+            if (!$chat) {
+                return response()->json(['error' => 'Chat tidak ditemukan'], 404);
+            }
+            
+            $chat->delete();
+    
             return response()->json(['message' => 'Chat berhasil dihapus'], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Gagal menghapus chat'], 500);
         }
     }
-
-    public function getMessage()
-    {
-    try {
-        $chats = Chat::all();
-        
-        $messages = $chats->pluck('message');
-
-        return response()->json(['messages' => $messages], 200);
-    } catch (\Exception $e) {
-        return response()->json(['error' => 'Gagal mengambil pesan chat'], 500);
-    }
-    }
-
+    
 }

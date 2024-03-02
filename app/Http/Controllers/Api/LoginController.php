@@ -44,13 +44,11 @@ class LoginController extends Controller
 
         $user = auth()->user();
 
-        // Mendapatkan peran (roles) pengguna
+      
         $roles = $user->getRoleNames();
-
-        // Mendapatkan izin-izin berdasarkan peran (roles)
         $permissions = $user->getAllPermissions()->pluck('name');
 
-        // Redirect berdasarkan peran setelah autentikasi berhasil
+        
         return $this->authenticated($request, $user, $token, $roles, $permissions);
     }
 

@@ -151,7 +151,8 @@ class LombaController extends Controller
     $lomba->delete();
 
     return response()->json(['message' => 'Resource deleted successfully']);
-}
+    }
+
 }
 
 

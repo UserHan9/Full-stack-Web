@@ -16,6 +16,7 @@ use App\Http\Middleware\CheckPermission;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -63,9 +64,13 @@ Route::group(['middleware' => 'auth:api'],function(){
 
 });
 
-Route::middleware(['auth:api', 'role:admin'])->group(function () {
-});
+// Route::middleware(['auth:api', 'role:admin'])->group(function () {
+    
+// });
 
+Route::get('/users', [UserController::class, 'index']);
+Route::get('/users/{id}', [UserController::class, 'showId']);
+Route::delete('/users/destroy/{id}', [UserController::class, 'destroy']);
 
 // // Route untuk lomba
 // Route::post('/lomba/create', [LombaController::class, 'create'])->name('lomba.create');
@@ -99,9 +104,6 @@ Route::delete('/jadwal/destroy/{id}', [JadwalController::class, 'destroy']);
 
 
 //user
-Route::get('/users', [UserController::class, 'index']);
-Route::get('/users/{id}', [UserController::class, 'showId']);
-Route::delete('/users/destroy/{id}', [UserController::class, 'destroy']);
 
 // Route untuk menyimpan chat baru
 Route::post('/chats', [ChatController::class, 'store']);

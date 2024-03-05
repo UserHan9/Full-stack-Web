@@ -13,6 +13,7 @@ use App\Http\Middleware\isLogin;
 use App\Http\Middleware\CheckPermission;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PemenangJadwal;
+use App\Http\Controllers\PemenangsController;
 
 
 
@@ -76,6 +77,7 @@ Route::get('/users/{id}', [UserController::class, 'showId']);
 Route::delete('/users/destroy/{id}', [UserController::class, 'destroy']);
 
 Route::post('/pemenangjadwal',[PemenangJadwal::class,'store']);
+Route::post('/pemenangsjadwal',[PemenangsController::class,'create']);
 
 // // Route untuk lomba
 // Route::post('/lomba/create', [LombaController::class, 'create'])->name('lomba.create');

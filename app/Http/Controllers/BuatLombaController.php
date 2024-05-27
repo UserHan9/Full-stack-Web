@@ -18,15 +18,15 @@ class BuatLombaController extends Controller
             $img_path = $req->file('image')->storeAs('public/post_img', $createnewFileName); 
             $buatLomba->image = $createnewFileName; 
         }
-        
+
         $buatLomba->nama_lomba = $req->nama_lomba;
         $buatLomba->nama_pj = $req->nama_pj; 
         $buatLomba->kontak = $req->kontak; 
 
         if($buatLomba->save()) { 
-            return ['status' => true, 'message' => "Image uploaded successfully"];       
+            return response()->json(['status' => true, 'message' => "Image uploaded successfully"], 201);       
         } else {
-            return ['status' => false, 'message' => "Error: Image not uploaded successfully"];       
+            return response()->json(['status' => false, 'message' => "Error: Image not uploaded successfully"], 500);       
         }
     }
 
@@ -36,8 +36,8 @@ class BuatLombaController extends Controller
         return response()->json($buatLomba);
     }
 
-    public function showId($id){
-        $buatLomba = buat_lomba::pagination(1);
+    public function showId($id) {
+        $buatLomba = buat_lomba::findOrFail($id);
         return response()->json($buatLomba);
     }
 }

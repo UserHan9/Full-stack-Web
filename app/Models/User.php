@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Profile;
+use App\Models\buat_lomba;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,6 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -83,4 +85,15 @@ class User extends Authenticatable implements JWTSubject
         // return $this->hasOne(Profile::class);
         return $this->hasOne(Profile::class);
     }
+
+    public function lombas(): HasMany
+    {
+        return $this->hasMany(buat_lomba::class);
+    }
+
+    public function lomba()
+    {
+        return $this->hasMany(lomba::class);
+    }
+
 }

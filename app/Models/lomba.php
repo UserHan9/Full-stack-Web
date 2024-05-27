@@ -19,5 +19,12 @@ class Lomba extends Model
     {
         return $this->belongsTo(buat_lomba::class, 'buat_lomba_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    
 }
 

@@ -90,17 +90,23 @@ Route::post('/pemenangsjadwal',[PemenangsController::class,'create']);
 
 
 // Route untuk lomba
-Route::post('/lomba/create', [LombaController::class, 'create'])->name('lomba.create');
 Route::get('/lomba/show', [LombaController::class, 'showAll'])->name('lomba.show');
 Route::get('/lomba/{id}', [LombaController::class, 'showId'])->name('lomba.showId');
 Route::put('/lomba/update/{id}', [LombaController::class, 'update']);
 Route::delete('/lomba/destroy/{id}', [LombaController::class, 'destroy']);
 
-// Route untuk buat lomba
-Route::post('/buat-lomba', [BuatLombaController::class, 'imageUpload']);
+// Route untuk buat lomba 
+// Route::post('/buat-lomba', [BuatLombaController::class, 'imageUpload']);
 Route::get('/buat-lomba/show', [BuatLombaController::class, 'show'])->name('buatlomba.show');
 Route::get('/buat-lomba/{id}', [BuatLombaController::class, 'showId'])->name('buatlomba.showId');
-Route::get('/nama', [LombaController::class, 'getNamaLomba']);
+Route::get('/nama/{userId}', [LombaController::class, 'getNamaLomba']);
+Route::get('/lomba/nama/{userId}', [LombaController::class, 'getNamaLomba']);
+Route::post('/buat-lomba', [BuatLombaController::class, 'imageUpload']);
+Route::middleware('auth')->group(function () {
+        Route::post('/lomba/create', [LombaController::class, 'create'])->name('lomba.create');
+        Route::get('/lomba-by-user', [LombaController::class, 'getLombaByUser']);
+    });
+
 
 // Route untuk jadwal
 Route::post('/jadwal/create', [JadwalController::class, 'create'])->name('lomba.create');

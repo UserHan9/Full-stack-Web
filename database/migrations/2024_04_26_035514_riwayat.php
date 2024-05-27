@@ -15,7 +15,7 @@ return new class extends Migration
             Schema::create('riwayat', function (Blueprint $table) {
                 $table->id();
                 $table->unsignedBigInteger('nama_kelas_id');
-                $table->foreign('nama_kelas_id')->references('id')->on('lomba');
+                $table->foreign('nama_kelas_id')->references('id')->on('lomba')->onDelete('cascade');
                 $table->timestamps();
             });
         }

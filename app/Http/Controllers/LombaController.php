@@ -5,19 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\buat_lomba;
 use Illuminate\Http\Request;
 use App\Models\Lomba;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class LombaController extends Controller
 {
     
-    public function getNamaLomba()
-    {
-       
-        $namaLomba = buat_lomba::latest()->value('nama_lomba');
-        $message = "kamu sudah terdaftar di lomba " . $namaLomba;
-        return response()->json([
-            'message' => $message,
-        ]);
+    public function getNamaLomba($id)
+{
+    $user = User::find($id);
+    if (!$user) {
+        return response()->json(['message' => 'User tidak ditemukan'], 404);
     }
+
+    $namaLomba = $user->lombas()->latest()->value('nama_lomba');
+    if (!$namaLomba) {
+        return response()->json(['message' => 'Tidak ada lomba yang terdaftar untuk pengguna ini'], 404);
+    }
+    $message = $user->name . " telah mendaftar di lomba " . $namaLomba;
+
+    return response()->json([
+        'message' => $message,
+    ]);
+}
 
     public function create(Request $request)
 {
@@ -34,13 +44,14 @@ class LombaController extends Controller
     $lomba->jurusan = $request->input('jurusan');
     $lomba->kontak = $request->input('kontak');
     $lomba->buat_lomba_id = $buatLombaId;
+    $lomba->user_id = Auth::id(); 
 
     // Simpan data Lomba
     $lomba->save();
 
     // Ambil nama_lomba dari tabel buat_lomba menggunakan relasi yang sudah didefinisikan di model Lomba
     $namaLomba = buat_lomba::findOrFail($buatLombaId)->nama_lomba;
-
+    $user = $lomba->user;
    
     $responseData = [
         'data' => $lomba->toArray(), 
@@ -101,7 +112,6 @@ class LombaController extends Controller
         return response()->json(['message' => 'Tidak ada data Lomba yang tersedia'], 404);
     }
 
-    // Format data yang akan dikembalikan dalam respons
     $formattedData = [];
     foreach ($lomba as $item) {
     
@@ -121,7 +131,7 @@ class LombaController extends Controller
     }
 
 
-    // Kirim respons dengan data lomba yang telah diformat
+    
     return response()->json($formattedData);
     }
 
@@ -151,6 +161,31 @@ class LombaController extends Controller
     $lomba->delete();
 
     return response()->json(['message' => 'Resource deleted successfully']);
+    }
+
+
+    public function getLombaByUser()
+    {
+        
+        if (!Auth::check()) {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+        $userId = Auth::id();
+        $userName = Auth::user()->name;
+        $lomba = Lomba::with('buatLomba')
+            ->where('user_id', $userId)
+            ->get();
+        if ($lomba->isEmpty()) {
+            return response()->json(['message' => 'Tidak ada lomba yang terdaftar untuk pengguna ini'], 404);
+        }
+        $responseData = [];
+        foreach ($lomba as $lomba) {
+            $responseData[] = [
+                'message' => "Kamu, $userName, telah terdaftar di lomba " . $lomba->buatLomba->nama_lomba,
+            ];
+        }
+
+        return response()->json($responseData);
     }
 
 }

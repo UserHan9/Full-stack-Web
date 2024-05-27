@@ -100,7 +100,7 @@ Route::delete('/lomba/destroy/{id}', [LombaController::class, 'destroy']);
 Route::post('/buat-lomba', [BuatLombaController::class, 'imageUpload']);
 Route::get('/buat-lomba/show', [BuatLombaController::class, 'show'])->name('buatlomba.show');
 Route::get('/buat-lomba/{id}', [BuatLombaController::class, 'showId'])->name('buatlomba.showId');
-
+Route::get('/nama', [LombaController::class, 'getNamaLomba']);
 
 // Route untuk jadwal
 Route::post('/jadwal/create', [JadwalController::class, 'create'])->name('lomba.create');
@@ -130,4 +130,4 @@ Route::post('/pemenang-lomba', [PemenangLomba::class, 'emailUpload']);
 Route::get('/lomba', [LombaController::class, 'getNamaLomba']);
 
 //
-Route::post('/riwayat', [RiwayatController::class, 'index']);
+Route::get('/riwayat', [RiwayatController::class, 'show']);

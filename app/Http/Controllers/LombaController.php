@@ -11,11 +11,11 @@ class LombaController extends Controller
     
     public function getNamaLomba()
     {
-        // Ambil nama lomba terbaru dari tabel buat_lomba
+       
         $namaLomba = buat_lomba::latest()->value('nama_lomba');
-
+        $message = "kamu sudah terdaftar di lomba " . $namaLomba;
         return response()->json([
-            'nama_lomba' => $namaLomba,
+            'message' => $message,
         ]);
     }
 

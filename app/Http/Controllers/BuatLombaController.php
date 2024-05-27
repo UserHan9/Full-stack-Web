@@ -20,8 +20,8 @@ class BuatLombaController extends Controller
         }
         
         $buatLomba->nama_lomba = $req->nama_lomba;
-        $buatLomba->nama_pj = $req->nama_pj; // Mengambil nilai dari request untuk nama_pj
-        $buatLomba->kontak = $req->kontak; // Mengambil nilai dari request untuk kontak
+        $buatLomba->nama_pj = $req->nama_pj; 
+        $buatLomba->kontak = $req->kontak; 
 
         if($buatLomba->save()) { 
             return ['status' => true, 'message' => "Image uploaded successfully"];       

@@ -17,7 +17,7 @@ class LombaTable extends Migration
                 $table->integer('jumlah_pemain');
                 $table->string('nama_peserta', 255);
                 $table->string('jurusan', 255);
-                $table->string('kontak', 20); // Assuming a maximum length of 20 for a phone number
+                $table->string('kontak', 20); 
                 $table->timestamps();
             });
         }

@@ -25,7 +25,7 @@ class LombaController extends Controller
 
     $lomba = new Lomba();
 
-    // Mendapatkan ID lomba yang baru saja dibuat
+    
     $buatLombaId = $request->input('buat_lomba_id');
 
     $lomba->nama_kelas = $request->input('nama_kelas');
@@ -41,12 +41,12 @@ class LombaController extends Controller
     // Ambil nama_lomba dari tabel buat_lomba menggunakan relasi yang sudah didefinisikan di model Lomba
     $namaLomba = buat_lomba::findOrFail($buatLombaId)->nama_lomba;
 
-    // Susun respons JSON dengan bidang 'nama_lomba' di atas
+   
     $responseData = [
-        'data' => $lomba->toArray(), // Ubah objek ke array untuk mengambil data dari model
+        'data' => $lomba->toArray(), 
     ];
 
-    // Tambahkan 'nama_lomba' ke dalam array 'data' agar berada di atas
+   
     $responseData['data']['nama_lomba'] = $namaLomba;
 
     return response()->json($responseData, 201);
@@ -93,10 +93,10 @@ class LombaController extends Controller
 
     public function showAll()
     {
-    // Temukan semua data lomba dengan relasi 'buatLomba'
+
     $lomba = Lomba::with('buatLomba')->get();
 
-    // Jika tidak ada data lomba, kirim respons 404 Not Found
+  
     if ($lomba->isEmpty()) {
         return response()->json(['message' => 'Tidak ada data Lomba yang tersedia'], 404);
     }
@@ -104,7 +104,7 @@ class LombaController extends Controller
     // Format data yang akan dikembalikan dalam respons
     $formattedData = [];
     foreach ($lomba as $item) {
-        // Periksa apakah relasi buatLomba ada
+    
         if ($item->buatLomba) {
             $formattedData[] = [
                 'id' => $item->id,
@@ -113,7 +113,7 @@ class LombaController extends Controller
                 'nama_peserta' => $item->nama_peserta,
                 'jurusan' => $item->jurusan,
                 'kontak' => $item->kontak,
-                'nama_lomba' => $item->buatLomba->nama_lomba, // Menambahkan nama_lomba dari relasi
+                'nama_lomba' => $item->buatLomba->nama_lomba, 
                 'created_at' => $item->created_at,
                 'updated_at' => $item->updated_at,
             ];
@@ -156,21 +156,4 @@ class LombaController extends Controller
 }
 
 
-
-// public function update(Request $request, Lomba $lomba)
-// {
-//     $request->validate([
-//         'nama_lomba' => 'required',
-//         'nama_kelas' => 'required',
-//         'jumlah_pemain' => 'required|integer',
-//         'nama_peserta' => 'required',
-//         'jurusan' => 'required',
-//         'kontak' => 'required',
-//     ]);
-
-//     $lomba->update($request->all());
-
-//     return redirect()->route('lomba.index')
-//         ->with('success', 'Data Lomba berhasil diperbarui');
-// }
 

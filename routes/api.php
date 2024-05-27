@@ -14,6 +14,7 @@ use App\Http\Middleware\CheckPermission;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PemenangJadwal;
 use App\Http\Controllers\PemenangsController;
+use App\Http\Controllers\RiwayatController;
 
 
 
@@ -125,6 +126,8 @@ Route::delete('/chats/{id}', [ChatController::class, 'delete']);
 
 
 //pemenang lomba 
-Route::post('/pemenang-lomba', [PemenangLomba::class, 'imageUpload']);
+Route::post('/pemenang-lomba', [PemenangLomba::class, 'emailUpload']);
 Route::get('/lomba', [LombaController::class, 'getNamaLomba']);
 
+//
+Route::post('/riwayat', [RiwayatController::class, 'index']);

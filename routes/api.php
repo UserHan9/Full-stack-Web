@@ -104,7 +104,7 @@ Route::get('/lomba/nama/{userId}', [LombaController::class, 'getNamaLomba']);
 Route::post('/buat-lomba', [BuatLombaController::class, 'imageUpload']);
 Route::middleware('auth')->group(function () {
         Route::post('/lomba/create', [LombaController::class, 'create'])->name('lomba.create');
-        Route::get('/lomba-by-user', [LombaController::class, 'getLombaByUser']);
+        Route::get('/riwayat', [LombaController::class, 'getLombaByUser']);
     });
 
 

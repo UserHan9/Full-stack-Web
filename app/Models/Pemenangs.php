@@ -17,4 +17,5 @@ class Pemenangs extends Model
     {
         return $this->belongsTo(Jadwal::class);
     }
+    //sahsahg
 }
